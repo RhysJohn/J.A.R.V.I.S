@@ -27,10 +27,15 @@ A plan in markdown, returned as your final message, with these sections:
 - **API routes and pages:** new or changed.
 - **Verification:** the commands and, where possible, the manual browser checks that prove it works.
 - **Wiki updates:** every page that must change and what changes, plus a log entry summary.
-- **Decisions for the user:** anything ambiguous that the user must decide. Don't guess these.
+- **Decisions:** every significant choice this change makes or relies on (criteria in `docs/decisions/README.md`). Mark each one as:
+  - **already decided:** link the ADR, and check the plan doesn't contradict it
+  - **decided now:** the choice, the alternatives and why; the decision-recorder will write the ADR
+  - **for the user:** the options and a recommendation; it becomes a `proposed` ADR, and nothing that depends on it starts until the user decides
+  
+  Read the existing ADRs in `docs/decisions/` before planning anything they cover.
 - **Wiki/code mismatches found:** if any.
 
 ## Done when
 - Every file in the plan is a real path, or is clearly marked as new.
 - Every schema change, route and page has a matching wiki update listed.
-- Open decisions are listed, not silently decided.
+- Every significant decision is listed in **Decisions** with its status. Open ones are left for the user, not silently decided.

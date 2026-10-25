@@ -28,4 +28,9 @@ Append-only history of the wiki and the project, newest at the bottom. Never edi
 ## [2026-10-25] decision | Presentation-only frontend with validation hooks
 - What: Moved business logic out of the budget components, the budget page and the layout into `app/logic` (finance budget: buckets, table, entryForm, chart; core: nav). Moved `$fetch` calls into composables (`useAuth`, `submitBudgetEntry`). Added Vitest unit and component projects (48 tests), the presentation guard, and Claude Code hooks: related tests after each edit, and the full suite before Stop/SubagentStop. The 3 typecheck errors in the budget modal were fixed along the way (4 remain, in `seed.ts`).
 - Pages: architecture/validation-hooks.md (new), conventions/frontend-architecture.md (new), architecture/harness.md, architecture/stack.md, conventions/change-workflow.md, conventions/adding-a-layer.md, domains/finance.md, domains/core.md, roadmap.md; ADR 0002
+- Commit/PR: 9f9ff6e
+
+## [2026-10-25] decision | ADRs required by the workflow; earlier decisions backfilled
+- What: ADRs are now a required output of the change workflow (ADR 0011). The planner lists decisions, the new decision-recorder agent writes the ADRs, and the reviewer and lint check them. Added `docs/decisions/README.md` with the criteria, rules, template and index. Backfilled decisions that previously lived only in prose or conversation: 0003 stack, 0004 seeded accounts, 0005 household scoping and joint records, 0006 Azure hosting, 0007 LLM wiki, 0008 role-based subagents, 0009 integrations (proposed), 0010 TypeScript 5 pin.
+- Pages: conventions/change-workflow.md (new Decisions step, checklist), index.md, architecture/harness.md, and `sources:` on stack, auth-and-households, database, data-conventions, deployment, harness, change-workflow and the four integrations pages; AGENTS.md; agents change-planner, change-reviewer, layer-developer, wiki-librarian, decision-recorder (new)
 - Commit/PR: (this commit)

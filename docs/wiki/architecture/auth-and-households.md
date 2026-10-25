@@ -3,7 +3,7 @@ title: Auth and households
 type: architecture
 status: active
 updated: 2026-10-25
-sources: [docs/raw/2026-06-finance-tracker-plan.md]
+sources: [docs/raw/2026-06-finance-tracker-plan.md, docs/decisions/0004-seeded-household-accounts-no-signup.md]
 ---
 
 # Auth and households

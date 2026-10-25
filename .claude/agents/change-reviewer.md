@@ -23,6 +23,7 @@ You review changes to J.A.R.V.I.S. You do not edit files. You report findings.
    - **Correctness:** look for logic bugs, unhandled errors, and type coercion problems. For example, a `type="number"` input's `v-model` yields a number, not a string.
    - **Gates:** run `npm test`, `npm run typecheck` and `npm run build` from `src/app`, and compare against the known issues.
    - **Secrets and personal data:** no `.env` contents, credentials or real financial data anywhere in the diff.
+   - **Decisions:** every significant decision in the diff has an ADR in `docs/decisions/` (criteria in its README), listed in both indexes. Nothing contradicts an accepted ADR unless a superseding ADR exists, and no accepted ADR's reasoning was edited. A missing ADR means **changes needed**.
    - **Wiki:** the pages named in the plan are updated, `updated:` is bumped, new pages are in the index, the log has an entry, and links resolve.
 
 ## Outputs

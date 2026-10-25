@@ -51,8 +51,19 @@ The catalogue of every wiki page. Agents read this first. Every page must be lis
 
 ## Decisions (ADRs)
 
+Why the project is the way it is. The criteria, rules and template are in the [decisions README](../decisions/README.md). Read the relevant ADRs before changing what they cover.
+
 - [0001: One Nuxt app, one layer per domain](../decisions/0001-one-nuxt-app-with-a-layer-per-domain.md)
 - [0002: Presentation-only components, enforced by validation hooks](../decisions/0002-presentation-only-components-with-validation-hooks.md)
+- [0003: Nuxt 4 + Postgres + Drizzle stack](../decisions/0003-nuxt-postgres-drizzle-stack.md)
+- [0004: Seeded household accounts, no public sign-up](../decisions/0004-seeded-household-accounts-no-signup.md)
+- [0005: Household scoping on every table; nullable user means joint](../decisions/0005-household-scoping-and-joint-records.md)
+- [0006: Azure Container Apps + Azure Database for PostgreSQL](../decisions/0006-azure-container-apps-hosting.md)
+- [0007: Project knowledge as an LLM-maintained wiki](../decisions/0007-llm-wiki-knowledge-base.md)
+- [0008: Role-based subagents with contracts](../decisions/0008-role-based-subagents-with-contracts.md)
+- [0009: Integrations: import first, single hubs, no basket automation](../decisions/0009-integrations-import-first-single-hubs.md) *(proposed)*
+- [0010: Pin TypeScript 5 for vue-tsc](../decisions/0010-pin-typescript-5.md)
+- [0011: ADRs are a required output of the change workflow](../decisions/0011-adrs-required-by-the-workflow.md)
 
 ## Raw sources
 

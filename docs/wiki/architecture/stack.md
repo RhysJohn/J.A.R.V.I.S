@@ -3,7 +3,7 @@ title: Stack
 type: architecture
 status: active
 updated: 2026-10-25
-sources: [docs/raw/2026-06-finance-tracker-plan.md]
+sources: [docs/raw/2026-06-finance-tracker-plan.md, docs/decisions/0003-nuxt-postgres-drizzle-stack.md, docs/decisions/0010-pin-typescript-5.md]
 ---
 
 # Stack

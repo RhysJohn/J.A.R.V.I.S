@@ -32,6 +32,13 @@ Check and report:
 - Drift from the code: routes, tables, files and components named on pages that no longer exist in `src/app`, and routes or tables in the code that no page mentions.
 - Stale status: `planned` items that the code shows are built, and roadmap entries out of date.
 - Contradictions between pages.
+- ADRs in `docs/decisions/`:
+  - every ADR is in both indexes (`docs/decisions/README.md` and `docs/wiki/index.md`)
+  - numbers are unique and sequential
+  - statuses are valid, and superseded ADRs point at their successor
+  - each ADR's Related links resolve
+  - wiki pages that describe a decided area link the ADR
+  - stale `proposed` ADRs are reported to the user
 
 Fix mechanical issues (links, index, frontmatter) directly. Report judgement calls, such as contradictions and drift whose correct version is unclear. Append a `lint` entry to `log.md` summarising both.
 

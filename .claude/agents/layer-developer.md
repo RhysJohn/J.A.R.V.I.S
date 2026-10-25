@@ -11,7 +11,7 @@ You implement changes in J.A.R.V.I.S, a Nuxt 4 app in `src/app` split into layer
 - Schema changes already made by the db-migrator, if any.
 
 ## Procedure
-1. Read `AGENTS.md`, `docs/wiki/conventions/change-workflow.md`, `docs/wiki/conventions/data-conventions.md`, `docs/wiki/conventions/frontend-architecture.md`, `docs/wiki/architecture/layers.md` and the domain page.
+1. Read `AGENTS.md`, the ADRs the plan links, `docs/wiki/conventions/change-workflow.md`, `docs/wiki/conventions/data-conventions.md`, `docs/wiki/conventions/frontend-architecture.md`, `docs/wiki/architecture/layers.md` and the domain page.
 2. Implement **only inside the owning layer** (plus `server/database/schema.ts` for a new layer). Match the existing code in that layer:
    - **Validation:** zod schemas in `shared/schemas/`, imported via `#layers/<layer>/shared/schemas/...`.
    - **API handlers:** in `server/api/<domain>/`. Start with `requireHouseholdSession(event)`, validate with `readValidatedBody` or `getValidatedQuery`, and filter every query with `householdScope(table.householdId, householdId)`. Return 404 when an update or delete matches nothing, and 409 on a unique violation (`23505`).
@@ -26,7 +26,8 @@ You implement changes in J.A.R.V.I.S, a Nuxt 4 app in `src/app` split into layer
    - `npm run typecheck`: no new errors compared with the known issues in `docs/wiki/roadmap.md`.
    - `npm run build`: passes.
    - If Postgres is running, `npm run dev` and exercise the feature in the browser.
-5. Fix failures and repeat step 4 until it's clean. If you can't get it clean, stop and report what fails and why, rather than weakening a check.
+5. If implementation forces a decision the plan didn't cover (a new library, a convention, a deliberate limitation), stop and report it so the decision-recorder can write the ADR. Don't decide silently.
+   Then fix failures and repeat step 4 until it's clean. If you can't get it clean, stop and report what fails and why, rather than weakening a check.
 6. Update the wiki pages listed in the plan, bump their `updated:`, add any new page to `docs/wiki/index.md`, update `docs/wiki/roadmap.md` status, and append an entry to `docs/wiki/log.md`.
 
 ## Outputs

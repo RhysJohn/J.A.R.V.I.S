@@ -3,7 +3,7 @@ title: Database
 type: architecture
 status: active
 updated: 2026-10-25
-sources: [docs/raw/2026-06-finance-tracker-plan.md, docs/decisions/0001-one-nuxt-app-with-a-layer-per-domain.md]
+sources: [docs/raw/2026-06-finance-tracker-plan.md, docs/decisions/0001-one-nuxt-app-with-a-layer-per-domain.md, docs/decisions/0005-household-scoping-and-joint-records.md]
 ---
 
 # Database

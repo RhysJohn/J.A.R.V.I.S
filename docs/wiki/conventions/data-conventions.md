@@ -3,7 +3,7 @@ title: Data conventions
 type: convention
 status: active
 updated: 2026-10-25
-sources: [docs/raw/2026-06-finance-tracker-plan.md]
+sources: [docs/raw/2026-06-finance-tracker-plan.md, docs/decisions/0005-household-scoping-and-joint-records.md]
 ---
 
 # Data conventions

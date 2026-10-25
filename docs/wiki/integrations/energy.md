@@ -3,7 +3,7 @@ title: Energy
 type: integration
 status: idea
 updated: 2026-10-25
-sources: [docs/raw/2026-10-25-jarvis-vision.md]
+sources: [docs/raw/2026-10-25-jarvis-vision.md, docs/decisions/0009-integrations-import-first-single-hubs.md]
 ---
 
 # Energy

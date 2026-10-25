@@ -16,7 +16,7 @@ This follows the "LLM wiki" pattern: raw sources are compiled by agents into a m
 | **Wiki** | `docs/wiki/` | Agents | The compiled, current truth about the project. Agents create and update pages; humans may edit too. |
 | **Schema** | `AGENTS.md` (this file), `.claude/agents/*.md` | Humans, with agent proposals | How agents behave. Change only when the user asks or agrees. |
 
-Architecture decisions are recorded as ADRs in `docs/decisions/` (numbered, never rewritten; supersede with a new ADR). The wiki links to them.
+**Decisions** are recorded as ADRs in `docs/decisions/`: numbered, never rewritten, and superseded by a new ADR. ADRs are a required output of the workflow. Any change that makes or relies on a significant decision gets an ADR (criteria and template in [docs/decisions/README.md](docs/decisions/README.md)). The wiki says what *is*; ADRs say *why*, and what was rejected. **Read the relevant ADRs before changing something they cover.**
 
 **The code is the source of truth for behaviour; the wiki is the source of truth for intent, structure and status.** If they disagree, check the code, fix whichever is wrong, and log it.
 
@@ -30,6 +30,7 @@ Architecture decisions are recorded as ADRs in `docs/decisions/` (numbered, neve
 
 A change isn't done until the wiki reflects it. In the same commit as the code:
 
+- Record every decision the change made as an ADR in `docs/decisions/` (new, `proposed` or superseding), using the decision-recorder.
 - Update every wiki page whose facts changed: routes, tables, status, conventions, roadmap.
 - Bump `updated:` in the frontmatter of each page you touch.
 - Add any new page to `index.md`.
@@ -83,10 +84,11 @@ Role-based subagents live in `.claude/agents/`. Domain knowledge comes from the 
 | [db-migrator](.claude/agents/db-migrator.md) | Make Drizzle schema changes and generate migrations safely |
 | [change-reviewer](.claude/agents/change-reviewer.md) | Review a diff against the conventions and check the wiki was updated (read-only) |
 | [wiki-librarian](.claude/agents/wiki-librarian.md) | Ingest raw sources, answer questions from the wiki, lint it |
+| [decision-recorder](.claude/agents/decision-recorder.md) | Write ADRs (new, proposed, accepted, superseding) and link them into the wiki |
 
 Each agent file declares its **Inputs**, **Outputs** and **Done when**, so it can be used as a node in a workflow graph, with its "done when" serving as a loop's exit condition.
 
-Until the designed workflow exists, the interim flow for a feature is: change-planner → db-migrator (if tables change) → layer-developer → change-reviewer. The main agent orchestrates and owns the commit.
+Until the designed workflow exists, the interim flow for a feature is: change-planner → decision-recorder (if the plan lists decisions) → db-migrator (if tables change) → layer-developer → change-reviewer. The main agent orchestrates and owns the commit.
 
 ## Hard rules
 

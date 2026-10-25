@@ -3,7 +3,7 @@ title: Harness
 type: architecture
 status: planned
 updated: 2026-10-25
-sources: [docs/raw/2026-10-25-harness-goal.md, docs/decisions/0002-presentation-only-components-with-validation-hooks.md]
+sources: [docs/raw/2026-10-25-harness-goal.md, docs/decisions/0002-presentation-only-components-with-validation-hooks.md, docs/decisions/0007-llm-wiki-knowledge-base.md, docs/decisions/0008-role-based-subagents-with-contracts.md, docs/decisions/0011-adrs-required-by-the-workflow.md]
 ---
 
 # Harness
@@ -22,7 +22,7 @@ The long-term goal is a **harness framework that sits around the application**: 
 | Operating contract | [AGENTS.md](../../../AGENTS.md) | Rules every agent follows |
 | Knowledge (memory) | `docs/wiki/` | Compiled, current project knowledge; read before acting, updated after |
 | Inputs | `docs/raw/` | Immutable sources the wiki is compiled from |
-| Decisions | `docs/decisions/` | ADRs |
+| Decisions | `docs/decisions/` ([README](../../decisions/README.md)) | ADRs: a required output of every change that makes a decision, written by the decision-recorder and checked by the change-reviewer |
 | History | [log](../log.md) | Append-only record of every ingest, change and lint |
 | Nodes | `.claude/agents/*.md` | Role subagents, each with an input/output contract and a definition of done |
 | Validation hooks | [validation hooks](validation-hooks.md) (`.claude/hooks/`) | Run automatically: the presentation guard and related unit/component tests after each edit; the full suite before an agent stops |
