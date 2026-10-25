@@ -17,6 +17,7 @@ What's done, what's next and in what order, plus known issues. Update this page 
 - **Budget:** categories and entries CRUD, inline-editable table, 50/30/20 donut and bucket summary, month navigation. See [finance](domains/finance.md#budget).
 - **Restructure into J.A.R.V.I.S:** `src/app`, `core` and `finance` layers, layer-driven nav. See [ADR 0001](../decisions/0001-one-nuxt-app-with-a-layer-per-domain.md).
 - **Knowledge base:** this wiki, `AGENTS.md`, and the role subagents.
+- **Validation:** presentation-only frontend (business logic in `app/logic`), Vitest unit and component projects (48 tests), the presentation guard, and Claude Code validation hooks. See [validation hooks](architecture/validation-hooks.md).
 
 ## Next (in order)
 
@@ -32,8 +33,8 @@ What's done, what's next and in what order, plus known issues. Update this page 
 
 ## Known issues
 
-- `npm run typecheck` reports 7 errors carried over from finance-tracker: null-safety in `layers/finance/app/components/budget/BudgetEntryModal.vue` (3) and `server/database/seed.ts` (4). The build is unaffected.
-- No automated tests yet, and the `tests/` folder is empty.
+- `npm run typecheck` reports 4 errors carried over from finance-tracker, all null-safety in `server/database/seed.ts`. The build is unaffected. The 3 in the budget modal were fixed during the logic extraction.
+- No server/API tests or end-to-end tests yet. Typecheck and build aren't run by a hook.
 - No Dockerfile yet (needed for [deployment](architecture/deployment.md)).
 
 ## Related

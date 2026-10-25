@@ -19,9 +19,14 @@ A checklist for starting a new domain, such as `house` or `meals`. All paths are
 4. **Migration:** run `npm run db:generate`, review the SQL, then `npm run db:migrate`.
 5. **Validation:** zod schemas in `layers/<name>/shared/schemas/`.
 6. **API:** routes in `layers/<name>/server/api/<name>/`, following [data conventions](data-conventions.md).
-7. **UI:** pages in `layers/<name>/app/pages/<name>/` and components in `layers/<name>/app/components/<name>/`. Name components with a domain prefix, as in `BudgetTable`, to avoid clashes across layers.
+7. **Frontend**, following [frontend architecture](frontend-architecture.md):
+   - business logic in `layers/<name>/app/logic/<name>/`, with unit tests
+   - data access in `app/composables/`
+   - pages in `app/pages/<name>/` and components in `app/components/<name>/`, with component tests
+   
+   Name components with a domain prefix, as in `BudgetTable`, to avoid clashes across layers. The validation hooks pick up the new layer automatically.
 8. **Nav:** add a `nav` entry in `layers/<name>/app/app.config.ts` with the layer's own hundred for `order`.
-9. **Verify:** run `npm run typecheck` and `npm run build`.
+9. **Verify:** run `npm test`, `npm run lint:presentation`, `npm run typecheck` and `npm run build`.
 10. **Record:**
     - Update the domain page, [database](../architecture/database.md) (table list), [roadmap](../roadmap.md) and [index](../index.md).
     - Append to the [log](../log.md).

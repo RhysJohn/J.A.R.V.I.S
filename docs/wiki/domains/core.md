@@ -32,7 +32,8 @@ The `core` layer (`src/app/layers/core`) holds everything shared by all domains:
 
 - **Layout:** `app/layouts/default.vue` shows the nav (merged from every layer's `app.config` `nav`, sorted by `order`), the user's name, and Log out.
 - **Middleware:** `app/middleware/auth.global.ts`.
-- **Composables:** `useHousehold()`.
+- **Composables:** `useHousehold()`, and `useAuth.ts` (`loginRequest`, `logoutRequest`, `changePasswordRequest`), so pages and the layout never call `$fetch` themselves.
+- **Logic:** `app/logic/nav.ts` (`sortNavLinks`).
 - **Utils (auto-imported in every layer):**
   - `formatCurrency` and `formatPercent` (`app/utils/currency.ts`)
   - `currentMonthString`, `shiftMonth` and `formatMonthLabel` (`app/utils/month.ts`)

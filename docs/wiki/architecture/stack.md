@@ -20,6 +20,7 @@ The technology choices, inherited from finance-tracker and kept for J.A.R.V.I.S.
 | Charts | **chart.js** + **vue-chartjs** | Donut and line charts |
 | Validation | **zod**, shared between forms and API routes | Validation never drifts between client and server |
 | Types | **TypeScript 5** + **vue-tsc** (`npm run typecheck`) | vue-tsc doesn't support TypeScript 7 yet, so stay on 5 |
+| Tests | **Vitest 5** with two projects: `unit` (Node) and `component` (`@nuxt/test-utils` Nuxt environment, happy-dom, `@vue/test-utils`) | Fast logic tests, and real Nuxt rendering for components. See [frontend architecture](../conventions/frontend-architecture.md) |
 | Hosting | **Azure Container Apps** + **Azure Database for PostgreSQL** | Uses free credits; scale to zero. See [deployment](deployment.md) |
 
 ## Related

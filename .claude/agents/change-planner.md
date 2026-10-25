@@ -22,7 +22,8 @@ A plan in markdown, returned as your final message, with these sections:
 - **Goal:** one or two sentences.
 - **Owning layer:** the layer, and any new layer needed (follow `docs/wiki/conventions/adding-a-layer.md`).
 - **Schema changes:** tables or columns to add or change, or "none". If any, the db-migrator runs first.
-- **Files:** each file to add or change, with what changes and why.
+- **Files:** each file to add or change, with what changes and why. Split the frontend per `docs/wiki/conventions/frontend-architecture.md`: logic in `app/logic` (pure), data access in composables, presentation in `.vue`.
+- **Tests:** the unit tests (rules and edge cases) and component tests (what the user sees, events) to add or change, each named by its colocated file.
 - **API routes and pages:** new or changed.
 - **Verification:** the commands and, where possible, the manual browser checks that prove it works.
 - **Wiki updates:** every page that must change and what changes, plus a log entry summary.

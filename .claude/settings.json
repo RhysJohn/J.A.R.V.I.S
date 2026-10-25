@@ -19,6 +19,43 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-change.mjs\"",
+            "timeout": 180,
+            "statusMessage": "Validating change (presentation guard + related tests)"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-stop.mjs\"",
+            "timeout": 300,
+            "statusMessage": "Validating uncommitted changes before finishing"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-stop.mjs\"",
+            "timeout": 300,
+            "statusMessage": "Validating uncommitted changes before the subagent finishes"
+          }
+        ]
+      }
     ]
   },
   "enabledPlugins": {

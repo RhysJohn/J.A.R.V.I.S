@@ -1,18 +1,13 @@
 import type { ExpenseBucket } from '#layers/finance/shared/schemas/budget'
+import type { BucketStatus } from '../logic/budget/buckets'
 
-export const BUCKET_ORDER: ExpenseBucket[] = ['need', 'want', 'saving']
+// Presentation constants for budget buckets. The rules themselves (order, 50/30/20 targets,
+// totals) live in app/logic/budget.
 
 export const BUCKET_LABELS: Record<ExpenseBucket, string> = {
   need: 'Needs',
   want: 'Wants',
   saving: 'Savings'
-}
-
-// The 50/30/20 rule this app is built around.
-export const BUCKET_TARGETS: Record<ExpenseBucket, number> = {
-  need: 0.5,
-  want: 0.3,
-  saving: 0.2
 }
 
 export const BUCKET_CHART_COLORS: Record<ExpenseBucket, string> = {
@@ -27,6 +22,8 @@ export const BUCKET_UI_COLORS: Record<ExpenseBucket, 'primary' | 'warning' | 'su
   saving: 'success'
 }
 
-export function emptyBucketTotals(): Record<ExpenseBucket, number> {
-  return { need: 0, want: 0, saving: 0 }
+export const BUCKET_STATUS_CLASSES: Record<BucketStatus, string> = {
+  'on-target': 'text-gray-500',
+  over: 'text-amber-600',
+  under: 'text-emerald-600'
 }

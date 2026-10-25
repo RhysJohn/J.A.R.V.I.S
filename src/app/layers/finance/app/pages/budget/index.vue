@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { bucketTotalsFor } from '../../logic/budget/buckets'
+
 const { data: household } = useHousehold()
 const { data: categories, refresh: refreshCategories } = useBudgetCategories()
 
@@ -10,15 +12,7 @@ const toast = useToast()
 const currency = computed(() => household.value?.currency ?? 'GBP')
 const members = computed(() => household.value?.users ?? [])
 
-const bucketTotals = computed(() => {
-  const totals = emptyBucketTotals()
-  const categoryBuckets = new Map((categories.value ?? []).map((category) => [category.id, category.bucket]))
-  for (const entry of entries.value ?? []) {
-    const bucket = categoryBuckets.get(entry.categoryId)
-    if (bucket) totals[bucket] += entry.amount
-  }
-  return totals
-})
+const bucketTotals = computed(() => bucketTotalsFor(categories.value ?? [], entries.value ?? []))
 
 const isModalOpen = ref(false)
 const prefill = ref<{ categoryId?: string; userId?: string | null } | null>(null)

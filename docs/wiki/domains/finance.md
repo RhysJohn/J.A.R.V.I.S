@@ -15,7 +15,12 @@ The `finance` layer (`src/app/layers/finance`) replaces the household's budgetin
 **Status: done.**
 
 - **Model:** expense categories, each in a bucket (`need`, `want` or `saving`). Budget entries hold a planned amount per category, month and person, with a null person meaning joint. The default categories come from the seed script.
-- **Rule:** 50/30/20 (needs/wants/savings). Targets, labels and colours are in `app/utils/budget.ts`.
+- **Rule:** 50/30/20 (needs/wants/savings), with ±2 percentage points counting as on target. Bucket order, targets, totals and status are in `app/logic/budget/buckets.ts`. Labels, colours and status classes are in `app/utils/budget.ts`.
+- **Logic** (`app/logic/budget/`, unit tested):
+  - `buckets.ts`: totals and the 50/30/20 summary
+  - `table.ts`: the table view model, including per-person/joint cells and row/bucket/grand totals, and the inline-edit rule (cleared means delete; unchanged, negative or invalid is ignored)
+  - `entryForm.ts`: form defaults, options and validation order (amount, then category)
+  - `chart.ts`: donut data
 - **Page `/budget`:** month navigation, bucket summary (actual vs target), donut chart, and an inline-editable table grouped by bucket. Clearing an amount deletes the entry. A modal adds new entries and can create a category inline.
 
 | Route | Purpose |
@@ -28,7 +33,7 @@ The `finance` layer (`src/app/layers/finance`) replaces the household's budgetin
 | `PATCH /api/budget/entries/:id` | Update amount or notes |
 | `DELETE /api/budget/entries/:id` | Delete |
 
-Components live in `app/components/budget/`: `BudgetTable`, `BudgetEntryModal`, `BudgetDonutChart` and `BudgetBucketSummary`. The composable is `app/composables/useBudget.ts`.
+Components live in `app/components/budget/`: `BudgetTable`, `BudgetEntryModal`, `BudgetDonutChart` and `BudgetBucketSummary`. All are presentation-only, and each has a colocated component test, as does the `/budget` page. The composable `app/composables/useBudget.ts` handles fetching and CRUD, plus `submitBudgetEntry`, which creates a new category first if the form asked for one.
 
 ## Income
 

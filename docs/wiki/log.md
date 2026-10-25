@@ -23,4 +23,9 @@ Append-only history of the wiki and the project, newest at the bottom. Never edi
 ## [2026-10-25] ingest | Wiki and agent harness created
 - What: Set up the LLM-wiki structure. `AGENTS.md` is the schema (with `CLAUDE.md` importing it), `docs/raw/` holds immutable sources, and `docs/wiki/` holds the compiled pages. Role subagents are in `.claude/agents/`. The wiki was compiled from the original finance-tracker plan, the user's vision, the harness goal and the current code. The previous CLAUDE.md content was split into wiki pages.
 - Pages: all pages in [index](index.md)
+- Commit/PR: 352fd5f
+
+## [2026-10-25] decision | Presentation-only frontend with validation hooks
+- What: Moved business logic out of the budget components, the budget page and the layout into `app/logic` (finance budget: buckets, table, entryForm, chart; core: nav). Moved `$fetch` calls into composables (`useAuth`, `submitBudgetEntry`). Added Vitest unit and component projects (48 tests), the presentation guard, and Claude Code hooks: related tests after each edit, and the full suite before Stop/SubagentStop. The 3 typecheck errors in the budget modal were fixed along the way (4 remain, in `seed.ts`).
+- Pages: architecture/validation-hooks.md (new), conventions/frontend-architecture.md (new), architecture/harness.md, architecture/stack.md, conventions/change-workflow.md, conventions/adding-a-layer.md, domains/finance.md, domains/core.md, roadmap.md; ADR 0002
 - Commit/PR: (this commit)

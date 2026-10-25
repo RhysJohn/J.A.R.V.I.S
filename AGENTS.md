@@ -92,10 +92,16 @@ Until the designed workflow exists, the interim flow for a feature is: change-pl
 
 - Never commit secrets. Real credentials live only in `src/app/.env` (gitignored). Never put personal financial data (statements, account numbers) in `docs/raw/` or anywhere else in git; use scrubbed header-only samples.
 - Every API handler scopes by household. See [data conventions](docs/wiki/conventions/data-conventions.md).
+- No business logic or data access in `.vue` files. Logic goes in `app/logic` with unit tests, data access in composables, and presentation in components with component tests. See [frontend architecture](docs/wiki/conventions/frontend-architecture.md).
+- Validation hooks run related tests after every edit and the full suite before you stop. Fix what they report; never weaken a test or the guard to get past them. See [validation hooks](docs/wiki/architecture/validation-hooks.md).
 - Core never imports from a feature layer, and feature layers don't import from each other. See [layers](docs/wiki/architecture/layers.md).
 - Commit or push only when the user asks.
 
 ## Tooling
 
-- Run npm commands from `src/app`: `npm run dev`, `npm run typecheck`, `npm run build`, `npm run db:generate`, `npm run db:migrate`.
+- Run npm commands from `src/app`:
+  - **Develop:** `npm run dev`
+  - **Tests:** `npm test` (or `test:unit` / `test:component`), `npm run lint:presentation`
+  - **Checks:** `npm run typecheck`, `npm run build`
+  - **Database:** `npm run db:generate`, `npm run db:migrate`
 - **graphify** (optional code graph): if `graphify-out/graph.json` exists, use `graphify query "<question>"`, `graphify path "<A>" "<B>"` or `graphify explain "<concept>"` before broad grepping, and run `graphify update .` after code changes. When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` first.

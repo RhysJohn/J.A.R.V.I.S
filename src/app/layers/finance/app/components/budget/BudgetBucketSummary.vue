@@ -1,38 +1,21 @@
 <script setup lang="ts">
-import type { ExpenseBucket } from '#layers/finance/shared/schemas/budget'
+import { summariseBuckets, type BucketTotals } from '../../logic/budget/buckets'
 
 const props = defineProps<{
-  totals: Record<ExpenseBucket, number>
+  totals: BucketTotals
   currency: string
 }>()
 
-const grandTotal = computed(() => BUCKET_ORDER.reduce((sum, bucket) => sum + props.totals[bucket], 0))
-
-const rows = computed(() =>
-  BUCKET_ORDER.map((bucket) => {
-    const amount = props.totals[bucket]
-    const actualPercent = grandTotal.value > 0 ? amount / grandTotal.value : 0
-    const target = BUCKET_TARGETS[bucket]
-    return {
-      bucket,
-      label: BUCKET_LABELS[bucket],
-      color: BUCKET_UI_COLORS[bucket],
-      amount,
-      actualPercent,
-      target,
-      delta: actualPercent - target
-    }
-  })
-)
+const summary = computed(() => summariseBuckets(props.totals))
 </script>
 
 <template>
   <div class="grid gap-4 sm:grid-cols-3">
-    <UCard v-for="row in rows" :key="row.bucket">
+    <UCard v-for="row in summary.rows" :key="row.bucket" :data-bucket="row.bucket">
       <template #header>
         <div class="flex items-center justify-between">
-          <span class="font-medium">{{ row.label }}</span>
-          <UBadge :color="row.color" variant="subtle">{{ formatPercent(row.target) }} target</UBadge>
+          <span class="font-medium">{{ BUCKET_LABELS[row.bucket] }}</span>
+          <UBadge :color="BUCKET_UI_COLORS[row.bucket]" variant="subtle">{{ formatPercent(row.target) }} target</UBadge>
         </div>
       </template>
 
@@ -40,7 +23,7 @@ const rows = computed(() =>
         <p class="text-2xl font-semibold">{{ formatCurrency(row.amount, currency) }}</p>
         <p class="text-sm text-gray-500">
           {{ formatPercent(row.actualPercent) }} of total
-          <span v-if="grandTotal > 0" :class="Math.abs(row.delta) < 0.02 ? 'text-gray-500' : row.delta > 0 ? 'text-amber-600' : 'text-emerald-600'">
+          <span v-if="summary.grandTotal > 0" data-testid="delta" :class="BUCKET_STATUS_CLASSES[row.status]">
             ({{ row.delta > 0 ? '+' : '' }}{{ formatPercent(row.delta) }} vs target)
           </span>
         </p>

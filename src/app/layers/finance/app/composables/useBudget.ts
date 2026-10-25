@@ -4,6 +4,7 @@ import type {
   UpdateBudgetEntryInput,
   UpdateCategoryInput
 } from '#layers/finance/shared/schemas/budget'
+import type { EntrySubmission } from '../logic/budget/entryForm'
 
 export function useBudgetCategories() {
   return useFetch('/api/budget/categories', { key: 'budget-categories' })
@@ -35,4 +36,15 @@ export function updateBudgetEntry(id: string, input: UpdateBudgetEntryInput) {
 
 export function deleteBudgetEntry(id: string) {
   return $fetch(`/api/budget/entries/${id}`, { method: 'DELETE' })
+}
+
+// Creates the category first when the form asked for a new one, then the entry.
+export async function submitBudgetEntry(submission: Extract<EntrySubmission, { ok: true }>, month: string) {
+  let categoryId = submission.entry.categoryId
+  if (submission.newCategory) {
+    const category = await createBudgetCategory(submission.newCategory)
+    if (!category) throw new Error('Category was not created')
+    categoryId = category.id
+  }
+  return createBudgetEntry({ ...submission.entry, categoryId: categoryId!, month })
 }

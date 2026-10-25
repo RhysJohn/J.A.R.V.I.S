@@ -17,7 +17,7 @@ const pending = ref(false)
 async function onSubmit(event: FormSubmitEvent<LoginInput>) {
   pending.value = true
   try {
-    await $fetch('/api/auth/login', { method: 'POST', body: event.data })
+    await loginRequest(event.data)
     await refreshSession()
     await navigateTo('/dashboard')
   } catch {

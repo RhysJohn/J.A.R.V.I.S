@@ -27,9 +27,12 @@ The procedure every agent (and human) follows to change the app. The subagents i
    - Run `npm run db:generate` and review the SQL.
    - Run `npm run db:migrate` locally if Postgres is running.
 4. **Implement** *(layer-developer)*
-   - Make the change inside the owning layer, following [data conventions](data-conventions.md) and the [layer rules](../architecture/layers.md#dependency-rules).
+   - Make the change inside the owning layer, following [data conventions](data-conventions.md), the [layer rules](../architecture/layers.md#dependency-rules) and [frontend architecture](frontend-architecture.md).
+   - Business logic goes in `app/logic` with unit tests, and presentation in `.vue` files with component tests.
    - Match the style of the surrounding code: zod schema in `shared/schemas`, thin API handlers, composables wrapping `useFetch`/`$fetch`, `@nuxt/ui` components.
+   - The [validation hooks](../architecture/validation-hooks.md) run the related tests after every edit. Treat their failures as part of the loop.
 5. **Verify** *(layer-developer)* — from `src/app`:
+   - `npm test` and `npm run lint:presentation` must pass. The Stop hook enforces both.
    - `npm run typecheck` must introduce no new errors (see [known issues](../roadmap.md#known-issues)).
    - `npm run build` must pass.
    - If Postgres is up, exercise the feature in the browser with `npm run dev`.
@@ -49,6 +52,7 @@ The procedure every agent (and human) follows to change the app. The subagents i
 - Drizzle schema files use relative imports, and new tables are exported via the layer's `index.ts`, which `server/database/schema.ts` includes.
 - Money uses `numeric(12,2)` in number mode, and joint vs person-attributed records follow the nullable-`userId` rule.
 - zod validation runs on every request body and query.
+- No business logic or data access in `.vue` files (`npm run lint:presentation` passes). New logic has unit tests, and new or changed presentation has component tests.
 - No secrets or personal financial data are committed.
 - Wiki pages, the index and the log are updated, and links resolve.
 

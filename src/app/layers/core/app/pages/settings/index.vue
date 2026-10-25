@@ -16,7 +16,7 @@ const pending = ref(false)
 async function onSubmit(event: FormSubmitEvent<ChangePasswordInput>) {
   pending.value = true
   try {
-    await $fetch('/api/settings/change-password', { method: 'POST', body: event.data })
+    await changePasswordRequest(event.data)
     toast.add({ title: 'Password updated', color: 'success' })
     state.currentPassword = ''
     state.newPassword = ''

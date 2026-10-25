@@ -19,6 +19,7 @@ The catalogue of every wiki page. Agents read this first. Every page must be lis
 ## Architecture
 
 - [Harness](architecture/harness.md): the agent harness around the app, and the planned loop and graph workflows *(planned)*
+- [Validation hooks](architecture/validation-hooks.md): after-edit related tests and presentation guard; full suite before an agent stops
 - [Stack](architecture/stack.md): technology choices and why
 - [Layers](architecture/layers.md): one Nuxt layer per domain, dependency rules, imports, nav
 - [Database](architecture/database.md): one Postgres, composed Drizzle schema, relations, table list
@@ -29,6 +30,7 @@ The catalogue of every wiki page. Agents read this first. Every page must be lis
 
 - [Change workflow](conventions/change-workflow.md): interim step-by-step procedure and review checklist
 - [Data conventions](conventions/data-conventions.md): household scoping, person vs joint, column types, validation
+- [Frontend architecture](conventions/frontend-architecture.md): logic, composables and presentation-only components, and how each is tested
 - [Adding a layer](conventions/adding-a-layer.md): checklist for a new domain
 
 ## Domains
@@ -50,6 +52,7 @@ The catalogue of every wiki page. Agents read this first. Every page must be lis
 ## Decisions (ADRs)
 
 - [0001: One Nuxt app, one layer per domain](../decisions/0001-one-nuxt-app-with-a-layer-per-domain.md)
+- [0002: Presentation-only components, enforced by validation hooks](../decisions/0002-presentation-only-components-with-validation-hooks.md)
 
 ## Raw sources
 

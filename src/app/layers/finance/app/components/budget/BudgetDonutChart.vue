@@ -1,27 +1,18 @@
 <script setup lang="ts">
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
-import type { ExpenseBucket } from '#layers/finance/shared/schemas/budget'
+import { hasAnyAmount, type BucketTotals } from '../../logic/budget/buckets'
+import { bucketDonutData } from '../../logic/budget/chart'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 const props = defineProps<{
-  totals: Record<ExpenseBucket, number>
+  totals: BucketTotals
   currency: string
 }>()
 
-const chartData = computed(() => ({
-  labels: BUCKET_ORDER.map((bucket) => BUCKET_LABELS[bucket]),
-  datasets: [
-    {
-      data: BUCKET_ORDER.map((bucket) => props.totals[bucket]),
-      backgroundColor: BUCKET_ORDER.map((bucket) => BUCKET_CHART_COLORS[bucket]),
-      borderWidth: 0
-    }
-  ]
-}))
-
-const hasData = computed(() => BUCKET_ORDER.some((bucket) => props.totals[bucket] > 0))
+const chartData = computed(() => bucketDonutData(props.totals, BUCKET_LABELS, BUCKET_CHART_COLORS))
+const hasData = computed(() => hasAnyAmount(props.totals))
 
 const chartOptions = computed(() => ({
   responsive: true,

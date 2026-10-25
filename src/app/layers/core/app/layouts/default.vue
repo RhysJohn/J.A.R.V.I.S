@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import { sortNavLinks } from '../logic/nav'
+
 const { user, clear } = useUserSession()
 
 const appConfig = useAppConfig()
 
 // Each layer contributes its own links via app.config `nav`.
-const links = computed(() => [...appConfig.nav].sort((a, b) => a.order - b.order))
+const links = computed(() => sortNavLinks(appConfig.nav))
 
 async function logout() {
-  await $fetch('/api/auth/logout', { method: 'POST' })
+  await logoutRequest()
   await clear()
   await navigateTo('/login')
 }
