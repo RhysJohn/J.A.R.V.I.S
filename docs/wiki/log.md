@@ -2,7 +2,7 @@
 title: Log
 type: overview
 status: active
-updated: 2026-10-25
+updated: 2026-10-31
 sources: []
 ---
 
@@ -33,4 +33,24 @@ Append-only history of the wiki and the project, newest at the bottom. Never edi
 ## [2026-10-25] decision | ADRs required by the workflow; earlier decisions backfilled
 - What: ADRs are now a required output of the change workflow (ADR 0011). The planner lists decisions, the new decision-recorder agent writes the ADRs, and the reviewer and lint check them. Added `docs/decisions/README.md` with the criteria, rules, template and index. Backfilled decisions that previously lived only in prose or conversation: 0003 stack, 0004 seeded accounts, 0005 household scoping and joint records, 0006 Azure hosting, 0007 LLM wiki, 0008 role-based subagents, 0009 integrations (proposed), 0010 TypeScript 5 pin.
 - Pages: conventions/change-workflow.md (new Decisions step, checklist), index.md, architecture/harness.md, and `sources:` on stack, auth-and-households, database, data-conventions, deployment, harness, change-workflow and the four integrations pages; AGENTS.md; agents change-planner, change-reviewer, layer-developer, wiki-librarian, decision-recorder (new)
+- Commit/PR: 3d8e859
+
+## [2026-10-31] decision | One harness check for hooks, CI and humans
+- What: Following the principal-level harness review (finding 3), added `harness/check.mjs` (`npm run harness:check`) with checks for wiki, adrs, presentation, schema drift, tests, typecheck against a recorded baseline (4 known `seed.ts` errors) and build, in `fast` and `full` profiles with JSON reports. The Stop and SubagentStop hooks now run `--profile fast`, and GitHub Actions runs `--profile full` on pushes to main and on PRs. The wiki lint moved from a scratch script into the repo. Each check was proven to fail on a deliberate breakage (broken link, missing ADR index entry, unmigrated column, new type error).
+- Pages: architecture/quality-gates.md (new), architecture/validation-hooks.md, architecture/harness.md, conventions/change-workflow.md, roadmap.md, index.md; AGENTS.md; agents layer-developer, change-reviewer, db-migrator, wiki-librarian; ADR 0012
+- Commit/PR: c839ad1
+
+## [2026-10-31] ingest | Threat model recorded
+- What: Added the AI security threat model of the repo and harness as a raw source (14 findings, prioritised). Open findings are tracked in the roadmap's security backlog.
+- Pages: roadmap.md (security backlog), architecture/agent-security.md
 - Commit/PR: (this commit)
+
+## [2026-10-31] decision | Harness self-protection and untrusted content
+- What: Implemented threat model findings 1–3. Added a trust rule in AGENTS.md (only the user authorises actions; everything read is data); the PreToolUse guard hook (deny/ask by path, shell write and `.env` checks, git-bypass checks, maintenance mode); permission rules; the `integrity` harness check (raw immutability, no deleted tests, baseline not grown, injection scan); CODEOWNERS; and a read-only CI token with the PR base ref. The guard passed 28/28 pipe-test cases. These controls load in new sessions only: in the session that added them, a probe read of `src/app/.env` still succeeded, so the session secret and seed passwords should be rotated.
+- Pages: architecture/agent-security.md (new), architecture/quality-gates.md, architecture/validation-hooks.md, architecture/harness.md, roadmap.md, index.md; AGENTS.md; agents wiki-librarian, change-reviewer, layer-developer; ADR 0013
+- Commit/PR: (this commit)
+
+## [2026-10-31] change | Close .env guard bypasses on Windows paths
+- What: The guard hook's fallback for paths outside the repo only matched forward slashes, so a backslash path to another checkout's `.env` (for example the main checkout's `src/app/.env`, read from a worktree) was allowed. It also matched case-sensitively, but Windows opens `.ENV` as `.env`. Secret detection now normalises slashes and ignores case, for file, Grep/Glob and shell checks. Checked with 18 pipe-test cases (bypasses now denied; `.env.example`, ordinary files and the critical/controlled rules unchanged).
+- Pages: architecture/agent-security.md
+- Commit/PR: (uncommitted)

@@ -18,6 +18,9 @@ logs
 .fleet
 .idea
 
+# Harness report written by `harness:check --report` (uploaded as a CI artifact instead)
+harness-report.json
+
 # Local env files
 .env
 .env.*

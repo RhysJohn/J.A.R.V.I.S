@@ -1,6 +1,44 @@
 {
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Read(**/.env.production)",
+      "Read(**/.env.development)",
+      "Edit(**/.env)",
+      "Edit(**/.env.local)",
+      "Edit(**/.env.production)",
+      "Edit(**/.env.development)"
+    ],
+    "ask": [
+      "Edit(**/.claude/settings.json)",
+      "Edit(**/.claude/settings.local.json)",
+      "Edit(**/.claude/hooks/**)",
+      "Edit(**/.github/**)",
+      "Edit(**/harness/**)",
+      "Edit(**/src/app/scripts/**)",
+      "Edit(**/src/app/vitest.config.ts)",
+      "Edit(**/AGENTS.md)",
+      "Edit(**/CLAUDE.md)",
+      "Edit(**/.claude/agents/**)",
+      "Edit(**/docs/raw/**)",
+      "Bash(git push *)"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell|Edit|Write|MultiEdit|NotebookEdit|Read|Grep|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-tool.mjs\"",
+            "timeout": 15,
+            "onFailure": "block",
+            "statusMessage": "Checking harness guard rules"
+          }
+        ]
+      },
       {
         "matcher": "Bash",
         "hooks": [
