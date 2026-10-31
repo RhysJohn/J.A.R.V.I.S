@@ -2,8 +2,8 @@
 title: Validation hooks
 type: architecture
 status: active
-updated: 2026-10-25
-sources: [docs/decisions/0002-presentation-only-components-with-validation-hooks.md]
+updated: 2026-10-31
+sources: [docs/decisions/0002-presentation-only-components-with-validation-hooks.md, docs/decisions/0012-single-harness-check-for-hooks-and-ci.md]
 ---
 
 # Validation hooks
@@ -33,7 +33,7 @@ Typical cost: about 5s for unit, and 10–20s for component (Nuxt start-up).
 
 ## Before finishing: `validate-stop.mjs`
 
-The `Stop` and `SubagentStop` hooks run when there are uncommitted changes to testable files under `src/app`. They run the presentation guard over the changed `.vue` files, then the **full** unit and component suite.
+The `Stop` and `SubagentStop` hooks run when the repo has any uncommitted changes. They run the harness's `fast` profile (`harness/check.mjs --profile fast`): wiki, ADRs, presentation guard, schema drift, and the full unit and component suite. These are the same checks CI runs, minus typecheck and build (see [quality gates](quality-gates.md)).
 
 If anything fails, the hook returns `decision: block` with the failures, and the agent continues to fix them. It never blocks twice in a row (`stop_hook_active`), so a stuck agent can still stop and report.
 
@@ -48,19 +48,21 @@ These patterns enforce [frontend architecture](../conventions/frontend-architect
 ## Files
 
 - `.claude/settings.json`: hook registration (merged with the graphify hooks).
-- `.claude/hooks/lib.mjs`: file classification, a Vitest runner using the JSON reporter, and failure formatting.
+- `.claude/hooks/lib.mjs`: hook input parsing and file classification. The Vitest runner and formatting are re-exported from `harness/lib.mjs`.
+- `harness/check.mjs`: the gate runner the Stop hook delegates to.
 - `.claude/hooks/validate-change.mjs`, `.claude/hooks/validate-stop.mjs`
 - `src/app/vitest.config.ts`: the `unit` (Node) and `component` (Nuxt) projects.
 
 ## Caveats
 
 - **Loading:** hooks load when a session starts. A session that began before `.claude/settings.json` existed won't run them until it's restarted.
-- **Not covered by these hooks:** typecheck (about 40s, plus the known `seed.ts` errors), build, server/API code (there are no server tests yet), and end-to-end browser tests. All are candidates for future gates.
+- **Not covered by these hooks:** typecheck and build run in CI and in `npm run harness:check` (the `full` profile), not in the hooks. Server/API code has no tests yet, and there are no end-to-end browser tests.
 - **Requirements:** the hooks need `node` on PATH and `npm install` run in `src/app`. They run through bash (Git Bash on Windows).
 - **Graphify hooks:** the older graphify hooks in the same file use `python3`. They silently do nothing on machines without Python.
 
 ## Related
 
+- [Quality gates](quality-gates.md)
 - [Frontend architecture](../conventions/frontend-architecture.md)
 - [Harness](harness.md)
 - [Change workflow](../conventions/change-workflow.md)

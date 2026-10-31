@@ -2,7 +2,7 @@
 title: Log
 type: overview
 status: active
-updated: 2026-10-25
+updated: 2026-10-31
 sources: []
 ---
 
@@ -33,4 +33,9 @@ Append-only history of the wiki and the project, newest at the bottom. Never edi
 ## [2026-10-25] decision | ADRs required by the workflow; earlier decisions backfilled
 - What: ADRs are now a required output of the change workflow (ADR 0011). The planner lists decisions, the new decision-recorder agent writes the ADRs, and the reviewer and lint check them. Added `docs/decisions/README.md` with the criteria, rules, template and index. Backfilled decisions that previously lived only in prose or conversation: 0003 stack, 0004 seeded accounts, 0005 household scoping and joint records, 0006 Azure hosting, 0007 LLM wiki, 0008 role-based subagents, 0009 integrations (proposed), 0010 TypeScript 5 pin.
 - Pages: conventions/change-workflow.md (new Decisions step, checklist), index.md, architecture/harness.md, and `sources:` on stack, auth-and-households, database, data-conventions, deployment, harness, change-workflow and the four integrations pages; AGENTS.md; agents change-planner, change-reviewer, layer-developer, wiki-librarian, decision-recorder (new)
+- Commit/PR: 3d8e859
+
+## [2026-10-31] decision | One harness check for hooks, CI and humans
+- What: Following the principal-level harness review (finding 3), added `harness/check.mjs` (`npm run harness:check`) with checks for wiki, adrs, presentation, schema drift, tests, typecheck against a recorded baseline (4 known `seed.ts` errors) and build, in `fast` and `full` profiles with JSON reports. The Stop and SubagentStop hooks now run `--profile fast`, and GitHub Actions runs `--profile full` on pushes to main and on PRs. The wiki lint moved from a scratch script into the repo. Each check was proven to fail on a deliberate breakage (broken link, missing ADR index entry, unmigrated column, new type error).
+- Pages: architecture/quality-gates.md (new), architecture/validation-hooks.md, architecture/harness.md, conventions/change-workflow.md, roadmap.md, index.md; AGENTS.md; agents layer-developer, change-reviewer, db-migrator, wiki-librarian; ADR 0012
 - Commit/PR: (this commit)

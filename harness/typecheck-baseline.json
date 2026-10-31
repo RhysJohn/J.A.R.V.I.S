@@ -1,0 +1,25 @@
+{
+  "note": "Known typecheck errors. Shrink this list; never grow it to hide a new error.",
+  "errors": [
+    {
+      "file": "server/database/seed.ts",
+      "code": "TS18048",
+      "message": "'household' is possibly 'undefined'."
+    },
+    {
+      "file": "server/database/seed.ts",
+      "code": "TS18048",
+      "message": "'household' is possibly 'undefined'."
+    },
+    {
+      "file": "server/database/seed.ts",
+      "code": "TS18048",
+      "message": "'household' is possibly 'undefined'."
+    },
+    {
+      "file": "server/database/seed.ts",
+      "code": "TS18048",
+      "message": "'household' is possibly 'undefined'."
+    }
+  ]
+}

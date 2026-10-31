@@ -25,7 +25,7 @@ One operation:
 3. If the answer is a reusable synthesis, offer to file it as a page. Don't file it unasked.
 
 ## Lint
-Check and report:
+Start with `npm run harness:check -- --only wiki,adrs` (from `src/app`). It mechanically checks links, anchors, frontmatter, index coverage and ADR consistency. Then check and report what it can't see:
 - Broken relative links and anchors, including links into `docs/decisions/`, `docs/raw/`, `AGENTS.md` and `.claude/agents/`.
 - Orphans: wiki pages missing from `index.md`, and index entries pointing at missing pages.
 - Frontmatter: missing fields, invalid `type` or `status`, `sources:` pointing at missing files.

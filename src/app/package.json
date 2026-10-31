@@ -16,7 +16,8 @@
     "test": "vitest run",
     "test:unit": "vitest run --project unit",
     "test:component": "vitest run --project component",
-    "lint:presentation": "node scripts/check-presentation.mjs"
+    "lint:presentation": "node scripts/check-presentation.mjs",
+    "harness:check": "node ../../harness/check.mjs"
   },
   "dependencies": {
     "@adonisjs/hash": "^10.1.0",

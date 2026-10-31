@@ -21,7 +21,7 @@ You review changes to J.A.R.V.I.S. You do not edit files. You report findings.
    - **Frontend architecture:** no business rules, calculations or data access in `.vue` files (`npm run lint:presentation`, plus judgement for rules the regex can't see, such as a hard-coded threshold in a template). New logic lives in `app/logic` with unit tests, and new or changed presentation has component tests that assert user-visible output and events.
    - **Test quality:** tests would fail if the rule broke. Look for missing edge cases and over-mocking that hides the behaviour under test. No test was weakened or deleted just to make it pass.
    - **Correctness:** look for logic bugs, unhandled errors, and type coercion problems. For example, a `type="number"` input's `v-model` yields a number, not a string.
-   - **Gates:** run `npm test`, `npm run typecheck` and `npm run build` from `src/app`, and compare against the known issues.
+   - **Gates:** run `npm run harness:check -- --json` from `src/app`, and report any failing check with its details. If `harness/typecheck-baseline.json` changed, it must only shrink. A grown baseline is **changes needed**.
    - **Secrets and personal data:** no `.env` contents, credentials or real financial data anywhere in the diff.
    - **Decisions:** every significant decision in the diff has an ADR in `docs/decisions/` (criteria in its README), listed in both indexes. Nothing contradicts an accepted ADR unless a superseding ADR exists, and no accepted ADR's reasoning was edited. A missing ADR means **changes needed**.
    - **Wiki:** the pages named in the plan are updated, `updated:` is bumped, new pages are in the index, the log has an entry, and links resolve.

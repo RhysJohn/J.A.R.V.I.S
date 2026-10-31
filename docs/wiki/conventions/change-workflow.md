@@ -2,8 +2,8 @@
 title: Change workflow
 type: convention
 status: active
-updated: 2026-10-25
-sources: [AGENTS.md, docs/decisions/0008-role-based-subagents-with-contracts.md, docs/decisions/0011-adrs-required-by-the-workflow.md]
+updated: 2026-10-31
+sources: [AGENTS.md, docs/decisions/0008-role-based-subagents-with-contracts.md, docs/decisions/0011-adrs-required-by-the-workflow.md, docs/decisions/0012-single-harness-check-for-hooks-and-ci.md]
 ---
 
 # Change workflow
@@ -36,9 +36,7 @@ The procedure every agent (and human) follows to change the app. The subagents i
    - Match the style of the surrounding code: zod schema in `shared/schemas`, thin API handlers, composables wrapping `useFetch`/`$fetch`, `@nuxt/ui` components.
    - The [validation hooks](../architecture/validation-hooks.md) run the related tests after every edit. Treat their failures as part of the loop.
 6. **Verify** *(layer-developer)* — from `src/app`:
-   - `npm test` and `npm run lint:presentation` must pass. The Stop hook enforces both.
-   - `npm run typecheck` must introduce no new errors (see [known issues](../roadmap.md#known-issues)).
-   - `npm run build` must pass.
+   - `npm run harness:check` (the `full` profile) must pass: wiki, ADRs, presentation guard, schema drift, tests, typecheck with no errors beyond the baseline, and build. The Stop hook enforces the `fast` profile, and CI runs `full`. See [quality gates](../architecture/quality-gates.md).
    - If Postgres is up, exercise the feature in the browser with `npm run dev`.
 7. **Review** *(change-reviewer)*
    - Check the diff against the checklist below.

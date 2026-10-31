@@ -2,8 +2,8 @@
 title: Roadmap
 type: roadmap
 status: active
-updated: 2026-10-25
-sources: [docs/raw/2026-10-25-jarvis-vision.md, docs/raw/2026-06-finance-tracker-plan.md]
+updated: 2026-10-31
+sources: [docs/raw/2026-10-25-jarvis-vision.md, docs/raw/2026-06-finance-tracker-plan.md, docs/decisions/0012-single-harness-check-for-hooks-and-ci.md]
 ---
 
 # Roadmap
@@ -17,6 +17,7 @@ What's done, what's next and in what order, plus known issues. Update this page 
 - **Budget:** categories and entries CRUD, inline-editable table, 50/30/20 donut and bucket summary, month navigation. See [finance](domains/finance.md#budget).
 - **Restructure into J.A.R.V.I.S:** `src/app`, `core` and `finance` layers, layer-driven nav. See [ADR 0001](../decisions/0001-one-nuxt-app-with-a-layer-per-domain.md).
 - **Knowledge base:** this wiki, `AGENTS.md`, and the role subagents.
+- **Quality gates:** one `npm run harness:check` runner (wiki, ADRs, presentation, schema drift, tests, typecheck baseline, build), shared by the Stop hooks and GitHub Actions CI. See [quality gates](architecture/quality-gates.md).
 - **Validation:** presentation-only frontend (business logic in `app/logic`), Vitest unit and component projects (48 tests), the presentation guard, and Claude Code validation hooks. See [validation hooks](architecture/validation-hooks.md).
 
 ## Next (in order)
@@ -33,8 +34,9 @@ What's done, what's next and in what order, plus known issues. Update this page 
 
 ## Known issues
 
-- `npm run typecheck` reports 4 errors carried over from finance-tracker, all null-safety in `server/database/seed.ts`. The build is unaffected. The 3 in the budget modal were fixed during the logic extraction.
-- No server/API tests or end-to-end tests yet. Typecheck and build aren't run by a hook.
+- `npm run typecheck` reports 4 errors carried over from finance-tracker, all null-safety in `server/database/seed.ts`. They're recorded in `harness/typecheck-baseline.json`. The build is unaffected. The 3 in the budget modal were fixed during the logic extraction.
+- No server/API tests (including household isolation) or end-to-end tests yet.
+- CI doesn't block merging until GitHub branch protection on `main` requires the `harness` check.
 - No Dockerfile yet (needed for [deployment](architecture/deployment.md)).
 
 ## Related

@@ -30,7 +30,7 @@ You change the J.A.R.V.I.S database schema safely. There is one Postgres databas
 - Updates to `docs/wiki/architecture/database.md` (the table list) and the domain page's data model section.
 
 ## Done when
-- `npm run db:generate` run a second time reports "No schema changes".
+- `npm run harness:check -- --only schema` passes, meaning there's no drift between the schema and the committed migrations.
 - The generated SQL matches the plan, with no destructive surprises.
 - `npm run typecheck` introduces no new errors.
 - The wiki table list matches the schema.
