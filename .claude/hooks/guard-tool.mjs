@@ -27,7 +27,8 @@ const CONTROLLED = [
   /^\.claude\/agents\//,
   /^docs\/raw\//
 ]
-const SECRET_FILE = /(^|\/)\.env(\.[\w-]+)?$/
+// Case-insensitive: Windows filesystems open .ENV as .env.
+const SECRET_FILE = /(^|\/)\.env(\.[\w-]+)?$/i
 
 // Path fragments as they may appear in a shell command, with either slash direction.
 const SHELL_PROTECTED = [
@@ -45,7 +46,7 @@ const SHELL_PROTECTED = [
 ]
 const SHELL_WRITE = /(^|[^>])>>?(?!&)|\btee\b|\bsed\s+-i|\b(cp|mv|rm|rmdir|touch|truncate|ln|install|chmod)\b|Set-Content|Add-Content|Out-File|Remove-Item|New-Item|Copy-Item|Move-Item|Rename-Item|Clear-Content|\b(del|erase|ren|move|copy)\b|git\s+(checkout|restore|rm|mv|apply|stash)\b|WriteAllText|writeFile|appendFile|unlink|rmSync/i
 // .env or .env.<anything> as a path token, except .env.example (committed, no secrets).
-const SHELL_SECRET = /(^|[\s"'`/\\=:(])\.env(?!\.example\b)(\.[\w-]+)?(?=$|[\s"'`;|&>)])/
+const SHELL_SECRET = /(^|[\s"'`/\\=:(])\.env(?!\.example\b)(\.[\w-]+)?(?=$|[\s"'`;|&>)])/i
 const SHELL_BYPASS = [
   { pattern: /--no-verify\b/, why: 'skips git hooks' },
   { pattern: /\bgit\s+push\b[^\n]*(\s-f\b|--force\b|--force-with-lease\b)/, why: 'force-pushes' },
@@ -59,7 +60,11 @@ export function repoPath(filePath) {
 }
 
 const matches = (rules, rel) => rules.some((rule) => rule.test(rel))
-const isSecret = (rel) => SECRET_FILE.test(rel) && !rel.endsWith('.env.example')
+// Takes repo-relative or absolute paths, with either slash direction.
+const isSecret = (path) => {
+  const normalized = String(path).split('\\').join('/')
+  return SECRET_FILE.test(normalized) && !normalized.toLowerCase().endsWith('.env.example')
+}
 
 export function decideFile(toolName, rel) {
   if (!rel) return null
@@ -92,7 +97,7 @@ export function decideShell(command) {
 }
 
 function fileTargets(toolName, input) {
-  if (toolName === 'Grep' || toolName === 'Glob') return [input.path, input.glob, input.pattern].filter((v) => typeof v === 'string' && v.includes('.env'))
+  if (toolName === 'Grep' || toolName === 'Glob') return [input.path, input.glob, input.pattern].filter((v) => typeof v === 'string' && v.toLowerCase().includes('.env'))
   return [input.file_path, input.notebook_path, input.path].filter(Boolean)
 }
 
@@ -105,7 +110,8 @@ if (toolName === 'Bash' || toolName === 'PowerShell') {
   verdict = decideShell(String(toolInput.command ?? ''))
 } else {
   for (const target of fileTargets(toolName, toolInput)) {
-    verdict = decideFile(toolName, repoPath(target)) ?? (SECRET_FILE.test(String(target)) && !String(target).endsWith('.env.example') ? { decision: 'deny', reason: 'agents never read or write .env files' } : null)
+    // Paths outside the repo (e.g. the main checkout, seen from a worktree) skip decideFile.
+    verdict = decideFile(toolName, repoPath(target)) ?? (isSecret(target) ? { decision: 'deny', reason: 'agents never read or write .env files' } : null)
     if (verdict) break
   }
 }

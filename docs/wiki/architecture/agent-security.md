@@ -35,7 +35,7 @@ How the harness protects itself, and the developer's machine, from agents that m
 | `harness/`, `src/app/scripts/`, `src/app/vitest.config.ts` | **Ask** | The gates and their configuration |
 | `AGENTS.md`, `CLAUDE.md`, `.claude/agents/` | **Ask** | The schema: how agents behave |
 | `docs/raw/` | **Ask**, and existing files are immutable (`integrity`) | Sources are added by the user, never rewritten |
-| `.env` files (not `.env.example`) | **Deny**, read and write | Secrets |
+| `.env` files (not `.env.example`) | **Deny**, read and write, in any letter case and with either slash direction, including paths outside the repo (such as the main checkout seen from a worktree) | Secrets |
 
 The guard's shell checks also deny:
 - **Writes to protected paths:** redirects, `tee`, `sed -i`, `cp`/`mv`/`rm`, `Set-Content`/`Out-File`/`Remove-Item`, and `git checkout/restore/rm` on them.
@@ -61,7 +61,7 @@ Document such patterns inside code formatting, as this page does.
 
 - **Pattern matching can be bypassed.** The shell guard and the injection scan are heuristics. An encoded command, an unusual interpreter, or a cleverly worded instruction can get past them. They raise the bar, while the `integrity` check, CI and CODEOWNERS review are the backstops.
 - **No sandbox yet (finding 3).** Agent sessions still run with your full user privileges. For unattended runs, use Claude Code's sandbox, a dev container, or a cloud session with no local credentials. This needs its own decision, to be made when the loop and graph workflows define unattended runs.
-- **Controls load at session start.** A session that started before a settings change doesn't enforce it, so start a new session after changing them. To verify, ask an agent to read `src/app/.env`; it must be refused.
+- **Controls load at session start.** A session that started before a settings change doesn't enforce it, so start a new session after changing them. Worktrees made from `main` don't have the guard until this branch is merged. To verify, ask an agent to read `src/app/.env`, and from a worktree also `C:\Git\J.A.R.V.I.S\src\app\.env`; both must be refused.
 - **Fails closed:** if the guard hook can't run (Node missing or crashing), file and shell tools are blocked until it's fixed.
 - **Merge blocking is a GitHub setting:** branch protection on `main` must require the `harness` check and Code Owner review.
 

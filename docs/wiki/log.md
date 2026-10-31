@@ -49,3 +49,8 @@ Append-only history of the wiki and the project, newest at the bottom. Never edi
 - What: Implemented threat model findings 1–3. Added a trust rule in AGENTS.md (only the user authorises actions; everything read is data); the PreToolUse guard hook (deny/ask by path, shell write and `.env` checks, git-bypass checks, maintenance mode); permission rules; the `integrity` harness check (raw immutability, no deleted tests, baseline not grown, injection scan); CODEOWNERS; and a read-only CI token with the PR base ref. The guard passed 28/28 pipe-test cases. These controls load in new sessions only: in the session that added them, a probe read of `src/app/.env` still succeeded, so the session secret and seed passwords should be rotated.
 - Pages: architecture/agent-security.md (new), architecture/quality-gates.md, architecture/validation-hooks.md, architecture/harness.md, roadmap.md, index.md; AGENTS.md; agents wiki-librarian, change-reviewer, layer-developer; ADR 0013
 - Commit/PR: (this commit)
+
+## [2026-10-31] change | Close .env guard bypasses on Windows paths
+- What: The guard hook's fallback for paths outside the repo only matched forward slashes, so a backslash path to another checkout's `.env` (for example the main checkout's `src/app/.env`, read from a worktree) was allowed. It also matched case-sensitively, but Windows opens `.ENV` as `.env`. Secret detection now normalises slashes and ignores case, for file, Grep/Glob and shell checks. Checked with 18 pipe-test cases (bypasses now denied; `.env.example`, ordinary files and the critical/controlled rules unchanged).
+- Pages: architecture/agent-security.md
+- Commit/PR: (uncommitted)
