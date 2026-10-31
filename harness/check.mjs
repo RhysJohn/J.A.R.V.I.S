@@ -4,13 +4,14 @@
 //   node harness/check.mjs [--profile fast|full] [--only a,b] [--skip a,b] [--json] [--report file]
 //                          [--update-baseline]
 //
-//   fast  wiki, adrs, presentation, schema, tests              (Stop hooks; ~15s)
+//   fast  integrity, wiki, adrs, presentation, schema, tests   (Stop hooks; ~25s)
 //   full  fast + typecheck + build                             (CI and before merging; default)
 //
 // Exit code 0 when every selected check passes, 1 otherwise. See docs/wiki/architecture/quality-gates.md.
 import { writeFileSync } from 'node:fs'
 import adrs from './checks/adrs.mjs'
 import build from './checks/build.mjs'
+import integrity from './checks/integrity.mjs'
 import presentation from './checks/presentation.mjs'
 import schema from './checks/schema.mjs'
 import tests from './checks/tests.mjs'
@@ -18,9 +19,9 @@ import typecheck from './checks/typecheck.mjs'
 import wiki from './checks/wiki.mjs'
 
 // Cheapest first, so the quick signals arrive before the slow ones.
-const CHECKS = [wiki, adrs, presentation, schema, tests, typecheck, build]
+const CHECKS = [integrity, wiki, adrs, presentation, schema, tests, typecheck, build]
 const PROFILES = {
-  fast: ['wiki', 'adrs', 'presentation', 'schema', 'tests'],
+  fast: ['integrity', 'wiki', 'adrs', 'presentation', 'schema', 'tests'],
   full: CHECKS.map((check) => check.name)
 }
 

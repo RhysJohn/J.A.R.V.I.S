@@ -14,6 +14,7 @@ Every machine-checkable gate runs through **one command**, `npm run harness:chec
 
 | Check | What it verifies | Typical time | Profiles |
 |---|---|---|---|
+| `integrity` | Raw sources unmodified, no test files deleted, typecheck baseline not grown, no injection-style text in the wiki or ADRs. Compares against `HARNESS_BASE_REF` (the PR base in CI), or against `HEAD` locally. See [agent security](agent-security.md) | <1s | fast, full |
 | `wiki` | Relative links and `#anchors` resolve across the docs, AGENTS.md, READMEs and agent files. Wiki pages have valid frontmatter whose `sources` exist, and every wiki page is in `index.md` | <1s | fast, full |
 | `adrs` | ADR numbers are unique and sequential, titles and `Status` lines are valid, superseded ADRs point at existing ones, and both indexes list every ADR | <1s | fast, full |
 | `presentation` | No business logic or data access in `.vue` files (see [frontend architecture](../conventions/frontend-architecture.md)) | <1s | fast, full |

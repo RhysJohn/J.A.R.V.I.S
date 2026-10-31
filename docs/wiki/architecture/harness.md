@@ -26,6 +26,7 @@ The long-term goal is a **harness framework that sits around the application**: 
 | History | [log](../log.md) | Append-only record of every ingest, change and lint |
 | Nodes | `.claude/agents/*.md` | Role subagents, each with an input/output contract and a definition of done |
 | Validation hooks | [validation hooks](validation-hooks.md) (`.claude/hooks/`) | Run automatically: the presentation guard and related unit/component tests after each edit; the full suite before an agent stops |
+| Self-protection | [agent security](agent-security.md): guard hook, permission rules, `integrity` check, CODEOWNERS | Stops agents, or injected content, from weakening the harness or reading secrets |
 | Quality gates | [quality gates](quality-gates.md): `npm run harness:check` (`harness/`), plus CI in `.github/workflows/harness.yml` | One command for every machine-checkable gate (wiki, ADRs, presentation, schema drift, tests, typecheck baseline, build), with a JSON report; shared by the hooks, CI and humans |
 | Interim workflow | [change workflow](../conventions/change-workflow.md) | The default sequence until the designed graph replaces it |
 

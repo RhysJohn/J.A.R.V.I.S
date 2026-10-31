@@ -8,6 +8,10 @@ on:
     branches: [main]
   pull_request:
 
+# The job only reads the repo; never hand PR code a token that can write.
+permissions:
+  contents: read
+
 concurrency:
   group: harness-${{ github.ref }}
   cancel-in-progress: true
@@ -21,6 +25,10 @@ jobs:
         working-directory: src/app
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history so the integrity check can diff against the base.
+          fetch-depth: 0
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
@@ -31,6 +39,9 @@ jobs:
       - run: npm ci
 
       - name: harness check (full profile)
+        env:
+          # Integrity compares against the PR base, or the commit before a push to main.
+          HARNESS_BASE_REF: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
         run: npm run harness:check -- --profile full --report harness-report.json
 
       - name: upload report

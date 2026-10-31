@@ -38,4 +38,14 @@ Append-only history of the wiki and the project, newest at the bottom. Never edi
 ## [2026-10-31] decision | One harness check for hooks, CI and humans
 - What: Following the principal-level harness review (finding 3), added `harness/check.mjs` (`npm run harness:check`) with checks for wiki, adrs, presentation, schema drift, tests, typecheck against a recorded baseline (4 known `seed.ts` errors) and build, in `fast` and `full` profiles with JSON reports. The Stop and SubagentStop hooks now run `--profile fast`, and GitHub Actions runs `--profile full` on pushes to main and on PRs. The wiki lint moved from a scratch script into the repo. Each check was proven to fail on a deliberate breakage (broken link, missing ADR index entry, unmigrated column, new type error).
 - Pages: architecture/quality-gates.md (new), architecture/validation-hooks.md, architecture/harness.md, conventions/change-workflow.md, roadmap.md, index.md; AGENTS.md; agents layer-developer, change-reviewer, db-migrator, wiki-librarian; ADR 0012
+- Commit/PR: c839ad1
+
+## [2026-10-31] ingest | Threat model recorded
+- What: Added the AI security threat model of the repo and harness as a raw source (14 findings, prioritised). Open findings are tracked in the roadmap's security backlog.
+- Pages: roadmap.md (security backlog), architecture/agent-security.md
+- Commit/PR: (this commit)
+
+## [2026-10-31] decision | Harness self-protection and untrusted content
+- What: Implemented threat model findings 1–3. Added a trust rule in AGENTS.md (only the user authorises actions; everything read is data); the PreToolUse guard hook (deny/ask by path, shell write and `.env` checks, git-bypass checks, maintenance mode); permission rules; the `integrity` harness check (raw immutability, no deleted tests, baseline not grown, injection scan); CODEOWNERS; and a read-only CI token with the PR base ref. The guard passed 28/28 pipe-test cases. These controls load in new sessions only: in the session that added them, a probe read of `src/app/.env` still succeeded, so the session secret and seed passwords should be rotated.
+- Pages: architecture/agent-security.md (new), architecture/quality-gates.md, architecture/validation-hooks.md, architecture/harness.md, roadmap.md, index.md; AGENTS.md; agents wiki-librarian, change-reviewer, layer-developer; ADR 0013
 - Commit/PR: (this commit)

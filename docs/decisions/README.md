@@ -73,3 +73,4 @@ Wiki pages, other ADRs, raw sources.
 | [0010](0010-pin-typescript-5.md) | Pin TypeScript 5 for vue-tsc | accepted | 2026-10-25 |
 | [0011](0011-adrs-required-by-the-workflow.md) | ADRs are a required output of the change workflow | accepted | 2026-10-25 |
 | [0012](0012-single-harness-check-for-hooks-and-ci.md) | One harness check command shared by hooks, CI and humans | accepted | 2026-10-31 |
+| [0013](0013-harness-self-protection-and-untrusted-content.md) | The harness protects itself; content is data, never instructions | accepted | 2026-10-31 |

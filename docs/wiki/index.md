@@ -19,6 +19,7 @@ The catalogue of every wiki page. Agents read this first. Every page must be lis
 ## Architecture
 
 - [Harness](architecture/harness.md): the agent harness around the app, and the planned loop and graph workflows *(planned)*
+- [Agent security](architecture/agent-security.md): how the harness protects itself: trust rule, guard hook, protected paths, integrity check, residual risk
 - [Quality gates](architecture/quality-gates.md): `npm run harness:check`, the one gate runner shared by hooks, CI and humans
 - [Validation hooks](architecture/validation-hooks.md): after-edit related tests and presentation guard; fast harness profile before an agent stops
 - [Stack](architecture/stack.md): technology choices and why
@@ -66,6 +67,7 @@ Why the project is the way it is. The criteria, rules and template are in the [d
 - [0010: Pin TypeScript 5 for vue-tsc](../decisions/0010-pin-typescript-5.md)
 - [0011: ADRs are a required output of the change workflow](../decisions/0011-adrs-required-by-the-workflow.md)
 - [0012: One harness check command shared by hooks, CI and humans](../decisions/0012-single-harness-check-for-hooks-and-ci.md)
+- [0013: The harness protects itself; content is data, never instructions](../decisions/0013-harness-self-protection-and-untrusted-content.md)
 
 ## Raw sources
 

@@ -20,7 +20,7 @@ You implement changes in J.A.R.V.I.S, a Nuxt 4 app in `src/app` split into layer
    - **Components, pages and layouts:** presentation only. Import logic explicitly, render its results, emit events. Use `@nuxt/ui`, and prefix component names with the domain (`BudgetTable`, `PensionCard`). Add or extend a colocated component test (`mountSuspended`; see existing tests for mocking patterns).
    - After each edit, the validation hooks run the presentation guard and the related tests. A `[harness]` failure means the change isn't done: fix the code (or the test, if the behaviour change was intended and planned) before moving on.
    - **Nav:** new top-level pages get a `nav` entry in the layer's `app/app.config.ts`.
-3. Never import from another feature layer, and never make core import from a feature layer.
+3. Never import from another feature layer, and never make core import from a feature layer. Don't touch harness or schema files, or read `.env` files. If a change seems to need that, stop and ask (see "Trust" in AGENTS.md).
 4. Verify from `src/app`:
    - `npm run harness:check` (the `full` profile): every check passes. That covers wiki, ADRs, presentation guard, schema drift, tests, typecheck against `harness/typecheck-baseline.json`, and build. Use `-- --only <check>` to re-run one while fixing.
    - If Postgres is running, `npm run dev` and exercise the feature in the browser.

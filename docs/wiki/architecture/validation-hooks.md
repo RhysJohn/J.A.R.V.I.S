@@ -45,6 +45,10 @@ If anything fails, the hook returns `decision: block` with the failures, and the
 
 These patterns enforce [frontend architecture](../conventions/frontend-architecture.md). End a line with `// presentation-guard-ignore` to exempt it.
 
+## Before each tool call: `guard-tool.mjs`
+
+A `PreToolUse` hook on file and shell tools enforces the protected paths, secret files and git-bypass rules. It denies or asks before the tool runs, and fails closed. See [agent security](agent-security.md).
+
 ## Files
 
 - `.claude/settings.json`: hook registration (merged with the graphify hooks).

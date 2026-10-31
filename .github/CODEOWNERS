@@ -1,0 +1,15 @@
+# Harness controls and schema need the owner's review. With branch protection set to "Require
+# review from Code Owners", an agent's PR can't change these without a human approving it.
+# See docs/wiki/architecture/agent-security.md.
+
+/.claude/settings.json      @RhysJohn
+/.claude/hooks/             @RhysJohn
+/.claude/agents/            @RhysJohn
+/.github/                   @RhysJohn
+/harness/                   @RhysJohn
+/src/app/scripts/           @RhysJohn
+/src/app/vitest.config.ts   @RhysJohn
+/AGENTS.md                  @RhysJohn
+/CLAUDE.md                  @RhysJohn
+/docs/raw/                  @RhysJohn
+/docs/decisions/            @RhysJohn
